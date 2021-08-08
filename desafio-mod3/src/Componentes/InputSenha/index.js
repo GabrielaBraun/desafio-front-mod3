@@ -12,16 +12,16 @@ function InputSenha(props){
                 type={senhaVisivel ? "text" : "password"}
                 endAdornment={
                     <InputAdornment position="end">
-                    <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={() => setSenhaVisivel(!senhaVisivel)}
-                    >
-                        {senhaVisivel ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
+                        <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setSenhaVisivel(!senhaVisivel)}
+                        >
+                            {senhaVisivel ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
                     </InputAdornment>
                 } 
                 />
-    </FormControl>
+        </FormControl>
     )
 };
 
