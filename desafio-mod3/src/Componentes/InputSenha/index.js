@@ -10,6 +10,8 @@ function InputSenha(props){
             <Input 
                 id={props.id}
                 type={senhaVisivel ? "text" : "password"}
+                error={props.error}
+                {... props.register()}
                 endAdornment={
                     <InputAdornment position="end">
                         <IconButton
