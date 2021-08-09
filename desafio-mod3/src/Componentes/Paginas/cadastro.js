@@ -9,12 +9,22 @@ function Cadastro(){
     const classes = useStyles();
     const { handleSubmit, register, formState: {errors}, setError } = useForm();
 
-    function cadastrar(data){
+    async function cadastrar(data){
         if(data.senha !== data.senharepetida){
             setError('senha', {type: 'validate'}, {shouldFocus: true});
             setError('senharepetida', {type: 'validate'}, {shouldFocus: true});
             return;
         }
+
+        const resposta = await fetch('http://localhost:3000/cadastro', {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-type': 'application/json'
+            }
+        });
+
+        const dados = await resposta.json();
     };
 
     return(
