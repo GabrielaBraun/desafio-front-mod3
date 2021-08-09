@@ -1,5 +1,5 @@
-import React from 'react';
-import {Card, TextField, Typography, Button} from '@material-ui/core';
+import React, { useState } from 'react';
+import {Card, TextField, Typography, Button, Backdrop, CircularProgress} from '@material-ui/core';
 import './styles.css';
 import useStyles from './style';
 import InputSenha from '../InputSenha';
@@ -10,6 +10,7 @@ function Cadastro(){
     const classes = useStyles();
     const history = useHistory();
     const { handleSubmit, register, formState: {errors}, setError } = useForm();
+    const [estaCarregando, setEstaCarregando] = useState(false);
 
     async function cadastrar(data){
         if(data.senha !== data.senharepetida){
@@ -18,6 +19,8 @@ function Cadastro(){
             return;
         }
 
+        setEstaCarregando(true);
+
         const resposta = await fetch('http://localhost:3000/cadastro', {
             method: "POST",
             body: JSON.stringify(data),
@@ -25,6 +28,8 @@ function Cadastro(){
                 'Content-type': 'application/json'
             }
         });
+
+        setEstaCarregando(false);
 
         if(resposta.ok){
             return history.push('/');
@@ -67,6 +72,9 @@ function Cadastro(){
                         />           
                     </div>
                 <Button type="submit" className={classes.button} variant="contained" color="primary">Criar conta</Button>
+                <Backdrop className={classes.backdrop} open={estaCarregando} >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
                 <Typography variant="h6" component="p">Já possui cadastro? <a href="/">ACESSE</a></Typography>
             </Card>
         </form>

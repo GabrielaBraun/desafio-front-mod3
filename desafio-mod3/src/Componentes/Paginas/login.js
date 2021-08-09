@@ -1,5 +1,5 @@
-import React from 'react';
-import {Button, Card, TextField, Typography} from '@material-ui/core';
+import React, { useState } from 'react';
+import {Button, Card, TextField, Typography, Backdrop, CircularProgress} from '@material-ui/core';
 import './styles.css';
 import useStyles from './style';
 import InputSenha from '../InputSenha';
@@ -10,8 +10,11 @@ function Login(){
     const classes = useStyles();
     const history = useHistory();
     const { handleSubmit, register, formState: {errors} } = useForm();
+    const [estaCarregando, setEstaCarregando] = useState(false);
 
     async function logar(data){
+
+        setEstaCarregando(true);
 
         const resposta = await fetch('http://localhost:3000/login', {
             method: "POST",
@@ -21,6 +24,8 @@ function Login(){
             }
         });
 
+        setEstaCarregando(false);
+
         if(resposta.ok){
             return history.push('/produtos');
         }
@@ -29,7 +34,7 @@ function Login(){
     };
 
     return(
-        <div className="container" onSubmit={handleSubmit(logar)}>
+        <form className="container" onSubmit={handleSubmit(logar)}>
             <Card className={classes.card}>
                 <Typography variant="h4" component="h2">Login</Typography>
                     <div className={classes.columns}>
@@ -46,9 +51,12 @@ function Login(){
                         />   
                     </div>
                 <Button type="submit" className={classes.button} variant="contained" color="primary">Entrar</Button>
+                <Backdrop className={classes.backdrop} open={estaCarregando} >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
                 <Typography variant="h6" component="p">Primeira vez aqui? <a href="/cadastro"> CRIE UMA CONTA</a></Typography>
             </Card>
-        </div>
+        </form>
     )
 };
 
