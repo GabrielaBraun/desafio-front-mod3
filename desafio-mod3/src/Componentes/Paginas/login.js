@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {Button, Card, TextField, Typography, Backdrop, CircularProgress} from '@material-ui/core';
+import {Button, Card, TextField, Typography, Backdrop, CircularProgress, Snackbar} from '@material-ui/core';
+import {Alert} from '@material-ui/lab';
 import './styles.css';
 import useStyles from './style';
 import InputSenha from '../InputSenha';
@@ -11,9 +12,11 @@ function Login(){
     const history = useHistory();
     const { handleSubmit, register, formState: {errors} } = useForm();
     const [estaCarregando, setEstaCarregando] = useState(false);
+    const [erro, setErro] = useState('');
 
     async function logar(data){
 
+        setErro('');
         setEstaCarregando(true);
 
         const resposta = await fetch('http://localhost:3000/login', {
@@ -29,7 +32,10 @@ function Login(){
         if(resposta.ok){
             return history.push('/produtos');
         }
-        return history.push('/login');
+
+        const dados = await resposta.json();
+
+        setErro(dados);
     };
 
     return(
@@ -53,6 +59,11 @@ function Login(){
                 <Backdrop className={classes.backdrop} open={estaCarregando} >
                     <CircularProgress color="inherit" />
                 </Backdrop>
+                <Snackbar open={!!erro} autoHideDuration={6000}>
+                    <Alert severity="error">
+                        {erro}
+                    </Alert>
+                </Snackbar>
                 <Typography variant="h6" component="p">Primeira vez aqui? <a href="/cadastro"> CRIE UMA CONTA</a></Typography>
             </Card>
         </form>

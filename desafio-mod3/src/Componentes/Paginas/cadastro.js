@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {Card, TextField, Typography, Button, Backdrop, CircularProgress} from '@material-ui/core';
+import {Card, TextField, Typography, Button, Backdrop, CircularProgress, Snackbar} from '@material-ui/core';
+import {Alert} from '@material-ui/lab';
 import './styles.css';
 import useStyles from './style';
 import InputSenha from '../InputSenha';
@@ -11,6 +12,7 @@ function Cadastro(){
     const history = useHistory();
     const { handleSubmit, register, formState: {errors}, setError } = useForm();
     const [estaCarregando, setEstaCarregando] = useState(false);
+    const [erro, setErro] = useState('');
 
     async function cadastrar(data){
         if(data.senha !== data.senharepetida){
@@ -19,6 +21,7 @@ function Cadastro(){
             return;
         }
 
+        setErro('')
         setEstaCarregando(true);
 
         const resposta = await fetch('http://localhost:3000/cadastro', {
@@ -34,7 +37,10 @@ function Cadastro(){
         if(resposta.ok){
             return history.push('/');
         }
-        return history.push('/cadastro');
+
+        const dados = await resposta.json();
+
+        setErro(dados);
     };
 
     return(
@@ -74,6 +80,11 @@ function Cadastro(){
                 <Backdrop className={classes.backdrop} open={estaCarregando} >
                     <CircularProgress color="inherit" />
                 </Backdrop>
+                <Snackbar open={!!erro} autoHideDuration={6000}>
+                    <Alert severity="error">
+                        {erro}
+                    </Alert>
+                </Snackbar>
                 <Typography variant="h6" component="p">Já possui cadastro? <a href="/">ACESSE</a></Typography>
             </Card>
         </form>
