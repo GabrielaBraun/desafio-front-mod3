@@ -4,9 +4,11 @@ import './styles.css';
 import useStyles from './style';
 import InputSenha from '../InputSenha';
 import {useForm} from 'react-hook-form';
+import {useHistory} from 'react-router-dom';
 
 function Cadastro(){
     const classes = useStyles();
+    const history = useHistory();
     const { handleSubmit, register, formState: {errors}, setError } = useForm();
 
     async function cadastrar(data){
@@ -24,7 +26,11 @@ function Cadastro(){
             }
         });
 
-        const dados = await resposta.json();
+        if(resposta.ok){
+            return history.push('/');
+        }
+
+        console.log("Erro");
     };
 
     return(
