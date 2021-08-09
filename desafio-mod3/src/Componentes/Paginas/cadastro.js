@@ -34,8 +34,7 @@ function Cadastro(){
         if(resposta.ok){
             return history.push('/');
         }
-
-        console.log("Erro");
+        return history.push('/cadastro');
     };
 
     return(

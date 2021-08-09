@@ -29,8 +29,7 @@ function Login(){
         if(resposta.ok){
             return history.push('/produtos');
         }
-
-        console.log("Erro");
+        return history.push('/login');
     };
 
     return(
