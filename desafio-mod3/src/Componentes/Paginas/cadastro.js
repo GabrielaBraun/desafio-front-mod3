@@ -67,7 +67,7 @@ function Cadastro(){
                         />           
                     </div>
                 <Button type="submit" className={classes.button} variant="contained" color="primary">Criar conta</Button>
-                <Typography variant="h6" component="p">Já possui cadastro? ACESSE</Typography>
+                <Typography variant="h6" component="p">Já possui cadastro? <a href="/">ACESSE</a></Typography>
             </Card>
         </form>
     )
