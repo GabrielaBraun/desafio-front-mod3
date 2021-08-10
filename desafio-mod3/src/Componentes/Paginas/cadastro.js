@@ -24,7 +24,7 @@ function Cadastro(){
         setErro('')
         setEstaCarregando(true);
 
-        const resposta = await fetch('http://localhost:3000/cadastro', {
+        const resposta = await fetch('http://localhost:3001/cadastro', {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

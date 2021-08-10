@@ -19,7 +19,7 @@ function Login(){
         setErro('');
         setEstaCarregando(true);
 
-        const resposta = await fetch('http://localhost:3000/login', {
+        const resposta = await fetch('http://localhost:3001/login', {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
